@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+
+</style>
+<div id="map"></div>
+
+<button class="talk">Talk</button>
+<h3 class="content"></h3>
+
+<script>
+	const center = {
+		lat: 42.35,
+		lng: -71.05
+	}
+
+	const add = {
+		left: -0.005,
+		right: 0.005,
+		top: 0.005,
+		bottom: -0.005,
+	}
+
+
+	const btn = document.querySelector('.talk');
+	const content = document.querySelector('.content');
+
+	const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+	const recognition = new SpeechRecognition()
+
+	recognition.onstart = function () {
+		console.log('voice is active')
+	}
+
+	recognition.onresult = function (event) {
+
+
+		console.log(event)
+		const current = event.resultIndex
+		const transcript = event.results[current][0].transcript
+		content.textContent = transcript
+
+
+		const stringArr = [...event.results[current][0].transcript]
+		const stringArr2 = stringArr.join(' ');
+
+
+		if (content.innerHTML.includes('лев')||content.innerHTML.includes('Лев')) {
+			center.lng+=add.left
+			initMap()
+		}
+
+		if (content.innerHTML.includes('прав')||content.innerHTML.includes('Прав')) {
+			center.lng+=add.left
+			initMap()
+		}
+		if (content.innerHTML.includes('Верх')||content.innerHTML.includes('верх')) {
+			center.lat+=add.top
+			initMap()
+		}
+		if (content.innerHTML.includes('низ')||content.innerHTML.includes('Низ')) {
+			center.lat+=add.bottom
+			initMap()
+		}
+
+
+
+
+
+
+		readOutLoud(transcript)
+
+        // btn.click()
+	}
+
+	btn.addEventListener('click', () => {
+		recognition.start();
+	})
+
+    recognition.onend = function (){
+		console.log('restart speech')
+		btn.click();
+    }
+	function readOutLoud(message) {
+		const speech = new SpeechSynthesisUtterance()
+		speech.text = message;
+		speech.volume = 1;
+		speech.rate = 1;
+		speech.pitch = 1;
+
+		window.speechSynthesis.speak(speech)
+		// recognition.start();
+
+	}
+
+</script>
+
+<script>
+	function initMap(){
+		const options = {
+			zoom: 14,
+			center: center,
+		}
+
+		let map = new google.maps.Map(document.getElementById('map'), options);
+	}
+</script>
+
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdDXrVbMRNQ67za2Ci2P_MYDX1OCy7LXE&callback=initMap&language=en">
+</script>
+</body>
+</html>

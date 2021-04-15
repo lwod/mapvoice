@@ -7,15 +7,29 @@
 <body>
 <style>
     #map {
-        height: 400px;
-        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        height: 90vh;
+        width: 90vw;
+        border-radius: 20px;
+    }
+
+    body{
+        background-color: #282c34;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
 
 </style>
 <div id="map"></div>
 
-<button class="talk">Talk</button>
-<h3 class="content"></h3>
 
 <script>
 	const center = {
@@ -30,84 +44,58 @@
 		bottom: -0.005,
 	}
 
-
-	const btn = document.querySelector('.talk');
-	const content = document.querySelector('.content');
+	let zoom = 14;
 
 	const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 	const recognition = new SpeechRecognition()
 
-	recognition.onstart = function () {
-		console.log('voice is active')
-	}
+	recognition.onstart = function () {console.log('voice is active')}
 
 	recognition.onresult = function (event) {
-
-
-		console.log(event)
 		const current = event.resultIndex
 		const transcript = event.results[current][0].transcript
-		content.textContent = transcript
 
-
-		const stringArr = [...event.results[current][0].transcript]
-		const stringArr2 = stringArr.join(' ');
-
-
-		if (content.innerHTML.includes('лев')||content.innerHTML.includes('Лев')) {
+		if (transcript.includes('лев')||transcript.includes('Лев')) {
 			center.lng+=add.left
 			initMap()
 		}
 
-		if (content.innerHTML.includes('прав')||content.innerHTML.includes('Прав')) {
-			center.lng+=add.left
+		if (transcript.includes('прав')||transcript.includes('Прав')) {
+			center.lng+=add.right
 			initMap()
 		}
-		if (content.innerHTML.includes('Верх')||content.innerHTML.includes('верх')) {
+		if (transcript.includes('Верх')||transcript.includes('верх')) {
 			center.lat+=add.top
 			initMap()
 		}
-		if (content.innerHTML.includes('низ')||content.innerHTML.includes('Низ')) {
+		if (transcript.includes('низ')||transcript.includes('Низ')) {
 			center.lat+=add.bottom
 			initMap()
 		}
 
+		if (transcript.includes('иблиз')||transcript.includes('Иблиз')) {
+			zoom++;
+			initMap()
+		}
+
+		if (transcript.includes('алить')||transcript.includes('Алить')) {
+			zoom--;
+			initMap()
+		}
 
 
-
-
-
-		readOutLoud(transcript)
-
-        // btn.click()
 	}
 
-	btn.addEventListener('click', () => {
-		recognition.start();
-	})
 
-    recognition.onend = function (){
-		console.log('restart speech')
-		btn.click();
-    }
-	function readOutLoud(message) {
-		const speech = new SpeechSynthesisUtterance()
-		speech.text = message;
-		speech.volume = 1;
-		speech.rate = 1;
-		speech.pitch = 1;
-
-		window.speechSynthesis.speak(speech)
-		// recognition.start();
-
-	}
+	window.addEventListener("load", function(event) {recognition.start();});
+	recognition.onend = function (){recognition.start();}
 
 </script>
 
 <script>
 	function initMap(){
 		const options = {
-			zoom: 14,
+			zoom: zoom,
 			center: center,
 		}
 

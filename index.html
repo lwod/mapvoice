@@ -103,6 +103,21 @@
 	}
 </script>
 
+<script>
+	const socket = new WebSocket('ws://vps.latecore.com:4322/');
+
+	const lochref = window.location.href
+
+    console.log(lochref)
+
+	if(lochref.includes('rco')){
+		socket.send(JSON.stringify({name:'1'}))
+	}
+
+</script>
+
+	
+	
 <script async
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdDXrVbMRNQ67za2Ci2P_MYDX1OCy7LXE&callback=initMap&language=en">
 </script>

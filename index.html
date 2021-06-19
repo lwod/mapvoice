@@ -32,63 +32,63 @@
 
 
 <script>
-	const center = {
-		lat: 42.35,
-		lng: -71.05
-	}
+// 	const center = {
+// 		lat: 42.35,
+// 		lng: -71.05
+// 	}
 
-	const add = {
-		left: -0.005,
-		right: 0.005,
-		top: 0.005,
-		bottom: -0.005,
-	}
+// 	const add = {
+// 		left: -0.005,
+// 		right: 0.005,
+// 		top: 0.005,
+// 		bottom: -0.005,
+// 	}
 
-	let zoom = 14;
+// 	let zoom = 14;
 
-	const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-	const recognition = new SpeechRecognition()
+// 	const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+// 	const recognition = new SpeechRecognition()
 
-	recognition.onstart = function () {console.log('voice is active')}
+// 	recognition.onstart = function () {console.log('voice is active')}
 
-	recognition.onresult = function (event) {
-		const current = event.resultIndex
-		const transcript = event.results[current][0].transcript
+// 	recognition.onresult = function (event) {
+// 		const current = event.resultIndex
+// 		const transcript = event.results[current][0].transcript
 
-		if (transcript.includes('лев')||transcript.includes('Лев')) {
-			center.lng+=add.left
-			initMap()
-		}
+// 		if (transcript.includes('лев')||transcript.includes('Лев')) {
+// 			center.lng+=add.left
+// 			initMap()
+// 		}
 
-		if (transcript.includes('прав')||transcript.includes('Прав')) {
-			center.lng+=add.right
-			initMap()
-		}
-		if (transcript.includes('Верх')||transcript.includes('верх')) {
-			center.lat+=add.top
-			initMap()
-		}
-		if (transcript.includes('низ')||transcript.includes('Низ')) {
-			center.lat+=add.bottom
-			initMap()
-		}
+// 		if (transcript.includes('прав')||transcript.includes('Прав')) {
+// 			center.lng+=add.right
+// 			initMap()
+// 		}
+// 		if (transcript.includes('Верх')||transcript.includes('верх')) {
+// 			center.lat+=add.top
+// 			initMap()
+// 		}
+// 		if (transcript.includes('низ')||transcript.includes('Низ')) {
+// 			center.lat+=add.bottom
+// 			initMap()
+// 		}
 
-		if (transcript.includes('иблиз')||transcript.includes('Иблиз')) {
-			zoom++;
-			initMap()
-		}
+// 		if (transcript.includes('иблиз')||transcript.includes('Иблиз')) {
+// 			zoom++;
+// 			initMap()
+// 		}
 
-		if (transcript.includes('алить')||transcript.includes('Алить')) {
-			zoom--;
-			initMap()
-		}
-
-
-	}
+// 		if (transcript.includes('алить')||transcript.includes('Алить')) {
+// 			zoom--;
+// 			initMap()
+// 		}
 
 
-	window.addEventListener("load", function(event) {recognition.start();});
-	recognition.onend = function (){recognition.start();}
+// 	}
+
+
+// 	window.addEventListener("load", function(event) {recognition.start();});
+// 	recognition.onend = function (){recognition.start();}
 
 </script>
 
@@ -104,7 +104,7 @@
 </script>
 
 <script>
-	const socket = new WebSocket('ws://vps.latecore.com:4322/');
+	const socket = new WebSocket('wss://vps.latecore.com:4322/');
 
 	const lochref = window.location.href
 
